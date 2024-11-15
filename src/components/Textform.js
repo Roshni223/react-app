@@ -32,20 +32,37 @@ export default function Textform(props) {
     props.showAlert("Text copied succesfully","success")
 
   }
+  const getWordCharCount=(text)=>{
+    if(!text || text.trim().length==0){
+      return {wordCount:0,charCount:0}
+    }
+    const wordsArray = text.trim().split(/\s+/);
+    const wordCount = wordsArray.length;
+    const charCount = text.length;
+  
+    return { wordCount, charCount };
+
+  };
   return (
     <div>
-        <div className="mb-3" style={{backgroundColor: props.mode==="light"?"white":"grey"}}>
+        {/* <div className="mb-3" style={{backgroundColor: props.mode==="light"?"white":"grey"}}> */}
+        <div className="mb-3">
+
         <h2>{props.heading}</h2>
-        <textarea type="text" className="form-control" onChange={handleOnChange} id="formGroupExampleInput2" value={text} style={{backgroundColor: props.mode==="light"?"white":"grey", color:props.mode=="light"?"black":"white"}} rows="8"></textarea>
+        {/* <textarea type="text" className="form-control" onChange={handleOnChange} id="formGroupExampleInput2" value={text} style={{backgroundColor: props.mode==="light"?"white":"grey", color:props.mode=="light"?"black":"white"}} rows="8"></textarea> */}
+        <textarea type="text" className="form-control" onChange={handleOnChange} id="formGroupExampleInput2" value={text} rows="8"></textarea>
+
         </div>
-        <button className="btn btn-primary mx-2" onClick={handleOnUpClick}>Change to Uppercase</button>
-        <button className="btn btn-primary mx-2" onClick={handleOnLowClick}>Change to Lowercase</button>
-        <button className="btn btn-primary mx-2" onClick={handleClearText}>Clear text</button>
-        <button className="btn btn-primary mx-2" onClick={handleCopyText}>Copy to clipboard</button>
-        <div className='container' style={{backgroundColor: props.mode==="light"?"white":"grey"}}>
+        <button className="btn mx-2" onClick={handleOnUpClick} style={{backgroundColor:props.mode==="#ffffff"?"black":"white",color:props.mode==="#ffffff"?"white":"black"}}>Change to Uppercase</button>
+        <button className="btn mx-2" onClick={handleOnLowClick} style={{backgroundColor:props.mode==="#ffffff"?"black":"white",color:props.mode==="#ffffff"?"white":"black"}}>Change to Lowercase</button>
+        <button className="btn mx-2" onClick={handleClearText} style={{backgroundColor:props.mode==="#ffffff"?"black":"white",color:props.mode==="#ffffff"?"white":"black"}}>Clear text</button>
+        <button className="btn mx-2" onClick={handleCopyText} style={{backgroundColor:props.mode==="#ffffff"?"black":"white",color:props.mode==="#ffffff"?"white":"black"}}>Copy to clipboard</button>
+        {/* <div className='container' style={{backgroundColor: props.mode==="light"?"white":"grey"}}> */}
+        <div className='container'>
+
           <h2>Your text summary</h2>
-          <p>No of Words {text.split(" ").length} No of Chars {text.length}</p>
-          <p>Time to read {0.08*text.split(" ").length} minutes</p>
+          <p>No of Words {getWordCharCount(text).wordCount} No of Chars {getWordCharCount(text).charCount}</p>
+          <p>Time to read {0.08*getWordCharCount(text).wordCount  } minutes</p>
         </div>
         
     </div>

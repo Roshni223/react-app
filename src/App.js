@@ -3,7 +3,7 @@ import About from './components/About';
 import Alert from './components/Alert';
 import Navbar from './components/Navbar';
 import Textform from './components/Textform';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 
 function App() {
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState("#ffffff");
   const [alert, setAlert] = useState(null);
 
   const showAlert = (message, type) => {
@@ -24,21 +24,29 @@ function App() {
     }, 2000);
   };
 
-  const toggleMode = () => {
-    if (mode === "dark") {
-      setMode("light");
-      document.body.style.backgroundColor = "white";
-      document.body.style.color = "black";
-      showAlert("Light mode enabled!!", "success");
-      document.title = "Text Utils - Light";
+  const toggleMode = (color) => {
+    setMode(color);
+    let backgroundColor;
+    if (color === "#000435") {
+      // Light navy blue
+      backgroundColor = "rgb(42, 52, 82)";
+    } else if (color === "#06402B") {
+      // Light dark green
+      backgroundColor = "rgb(56, 105, 61)";
+    } else if (color === "#000000") {
+      // Light black (gray)
+      backgroundColor = "rgb(43, 48, 48)";
     } else {
-      setMode("dark");
-      document.body.style.backgroundColor = "grey";
-      document.body.style.color = "white";
-      showAlert("Dark mode enabled!!", "success");
-      document.title = "Text Utils - Dark";
+      backgroundColor = color;  // Default color
     }
+
+    document.body.style.backgroundColor = backgroundColor;
+    document.body.style.color = color === "#ffffff" ? "black" : "white";
   };
+
+  useEffect(() => {
+    document.body.style.color = mode === "#ffffff" ? "black" : "white";
+  }, [mode]);
 
   return (
     <>
@@ -46,7 +54,8 @@ function App() {
         <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
         <Alert alert={alert} />
         <Routes>
-          <Route path="/about" element={<About />} />
+          <Route path="/about" element={<About mode={mode}
+                  toggleMode={toggleMode} />} />
           <Route
             path="/"
             element={
